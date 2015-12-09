@@ -5,28 +5,16 @@
 
 <body>
 	<div class="container" id="main-container">
-		<h2>The Food Flask <img src="{{url_for('static', filename='images/flask.png')}}" alt="" id="flask-image"> </h2>
+		<h2>Some Flask App<img src="{{url_for('static', filename='images/flask.png')}}" alt="" id="flask-image"> </h2>
 		
 		<div class="contents">
-			<span>Hello there, what are you looking for?</span>
+			<span>Hello there, what are you thinking about?</span>
 			<form action="" method="post">
 				<input type=text placeholder="Some ingredient" name=word>
 	            <input type=submit value=Query>
         	</form><br>
 			<span style="width: 100px;">
-				{% if synsets %}
-
-					{% for i in synsets %}
-						{% if i.is_food %}
-							<div class="food-mark"><span class="glyphicon glyphicon-apple" aria-hidden="true"></span></div>
-						{% endif %}
-						<!-- ({{ i.distance }}) -->
-						{{ "%s - %s"|format( i.name(), i.definition() ) }}<br>	
-					{% endfor %}
-
-				{% else %}
-					<span>No match.</span>
-				{% endif %}
+				{{ func }}
 			</span>
 		</div>
 	</div>
