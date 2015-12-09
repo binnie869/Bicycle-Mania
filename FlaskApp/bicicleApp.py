@@ -1,14 +1,10 @@
 from flask import Flask, render_template, request
-#from nltk.corpus import words
 
 app = Flask(__name__)
 
 content = '''
 	<h1>Some title</h1>
 '''
-
-def some_function(word):
-	return word
 
 @app.route('/user/<username>')
 def show_user_profile(username):
@@ -24,13 +20,11 @@ def show_post(post_id):
     # show the post with the given id, the id is an integer
     return 'Post %d' % post_id
 
-@app.route('/template/', methods=['GET', 'POST'])
-def show_template(func='sample'):
-	if request.method == 'POST':
-	 	return render_template('hello.html', func=some_function(request.form['word'])) 
-	else:
-		return render_template('hello.html', func='derp')#some_function('onion')) 	
-	return render_template('hello.html', func='test')#some_function('onion')) 
+@app.route('/template/')#, methods=['GET', 'POST'])
+def show_template():
+	return render_template('index.html')#, synsets=gimme_synsets('onion')) 
+	#if request.method == 'POST':
+	 #	return render_template('hello.html')#, synsets=gimme_synsets(request.form['word'])) 
 	 
 
 @app.route('/about')
