@@ -20,7 +20,7 @@ def show_post(post_id):
     # show the post with the given id, the id is an integer
     return 'Post %d' % post_id
 
-@app.route('/template/')#, methods=['GET', 'POST'])
+@app.route('/templates/')#, methods=['GET', 'POST'])
 def show_template():
 	return render_template('index.html')#, synsets=gimme_synsets('onion')) 
 	#if request.method == 'POST':
@@ -30,6 +30,8 @@ def show_template():
 @app.route('/about')
 def about():
     return 'The about page'
+
+#@app.route('/')
 
 if __name__ == '__main__':
 	app.run()
