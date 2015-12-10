@@ -1,22 +1,66 @@
 <head>
 	<link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
 	<link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+	<link rel="stylesheet" href="{{url_for('static', filename='css/datepicker.css')}}">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.css">
+	<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
+	<script type="text/javascript" src="{{url_for('static', filename='js/moment.js')}}"></script>
+	<script type="text/javascript" src="{{url_for('static', filename='js/transition.js')}}"></script>
+	<script type="text/javascript" src="{{url_for('static', filename='js/collapse.js')}}"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
 </head>
 
 <body>
 	<div class="container" id="main-container">
 		<h2>Some Flask App<img src="{{url_for('static', filename='images/flask.png')}}" alt="" id="flask-image"> </h2>
 		
-		<div class="contents">
-			<span>Hello there, what are you thinking about?</span>
-			<form action="" method="post">
-				<input type=text placeholder="Some ingredient" name=word>
-	            <input type=submit value=Query>
-        	</form><br>
-			<span style="width: 100px;">
-				{{ func }}
-			</span>
+		<form action="" method="post">
+            
+            <!-- Date picker -->
+            <div class='col-sm-6'>
+				<div class="form-group">
+				    <label for="startAddress">Start address</label>
+					<input type="text" name=startAddress class="form-control" id="startAddress" placeholder="Start address">
+				</div>
+				<div class="form-group">
+				    <label for="endAddress">End address</label>
+					<input type="text" name=endAddress class="form-control" id="endAddress" placeholder="End address">
+				</div>
+	            <!-- <input type=submit value=Query> -->
+                <div class="form-group">
+                	<label for="datetimepicker1">Date and Time</label>
+                    <div class='input-group date' id='datetimepicker1'>
+                        <input type='text' name=dateTime class="form-control" id="dateTime" />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+	            <button type="submit" class="btn btn-default">Query</button>
+	            <script type="text/javascript">
+	                $(function () {
+	                    var derp = $('#datetimepicker1').datetimepicker();
+	                });
+	            </script>
+            </div>
+
+    	</form>
+		<div class="col-sm-6 results">
+			<ul>
+				<li>From: {{ start }}</li>
+				<li>To: {{ end }}</li>
+				<li>At: {{ date }}</li>
+			</ul>				
 		</div>
+
 	</div>
+
+	<ul>
+		<li>Start Location (Lat/Long lookup)</li>
+		<li>Date and time - DONE</li>
+		<li>Search radius</li>
+		<li>Optional Destination (Lat/Long lookup)</li>
+	</ul>
 
 </body>
