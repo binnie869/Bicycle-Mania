@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 #from nltk.corpus import words
 
 app = Flask(__name__)
+app.debug = True
 
 content = '''
 	<h1>Some title</h1>
@@ -25,12 +26,12 @@ def show_post(post_id):
     return 'Post %d' % post_id
 
 @app.route('/template/', methods=['GET', 'POST'])
-def show_template(func='sample'):
+def show_template(start=None, end=None, date=None):
 	if request.method == 'POST':
-	 	return render_template('hello.html', func=some_function(request.form['word'])) 
-	else:
-		return render_template('hello.html', func='derp')#some_function('onion')) 	
-	return render_template('hello.html', func='test')#some_function('onion')) 
+	 	return render_template('hello.html', start=some_function(request.form['startAddress']), end=some_function(request.form['endAddress']), date=some_function(request.form['dateTime'])) 
+	# else:
+	# 	return render_template('hello.html')
+	return render_template('hello.html', start=None, end=None, date=None)
 	 
 
 @app.route('/about')
