@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bicycle-Mania!</title>
+    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="../bootstrap/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+</head>
+
+
+<body>
+	<div class="container" id="main-container">
+		<h2>Bicycle-Mania!</h2>
+		
+		<div class="contents">
+			<!-- <span>Hello there, where are you starting from?</span> -->
+			<form action="http://127.0.0.1:5000/query" method="post">
+				<span>Where are you starting from?</span><br>
+				<input type="text" placeholder="Starting location" name="origin"><br><br>
+				<span>Where would you like to bike to?</span><br>
+				<input type="text" placeholder="Destination location" name="destination"><br><br>
+				<span>When would you like to bike?</span><br>
+				<input type="datetime-local" name="datetime" value="2015-12-09T12:00:00"><br><br>
+				<span>What is the search radius you are willing to travel to get a bike?</span><br>
+				<input type="number" name="radius" ><br><br>
+	            <input type="submit" value="Submit">
+        	</form><br>
+        	<!-- <button type="submit" form="form1" value="Submit">Submit</button> -->
+		</div>
+
+<script type="text/javascript" src="../jquery/jquery-1.8.3.min.js" charset="UTF-8"></script>
+<script type="text/javascript" src="../bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../bootstrap/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+
+<script type="text/javascript">
+    $('.form_datetime').datetimepicker({
+        weekStart: 1,
+        todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,
+		forceParse: 0,
+        showMeridian: 1
+    });
+</script> 
+
+</body>
+</html>

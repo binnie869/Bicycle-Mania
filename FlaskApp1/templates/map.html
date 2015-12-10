@@ -1,0 +1,175 @@
+<html>
+<head>
+  <title>Bicycle-Mania!</title>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <script src='https://api.mapbox.com/mapbox.js/v2.2.3/mapbox.js'></script>
+  <link href='https://api.mapbox.com/mapbox.js/v2.2.3/mapbox.css' rel='stylesheet' />
+  <style>
+    #map{ height: 100% }
+  </style>
+</head>
+<body>
+
+  <div id="prediction" class="col-md-2">
+      <h4> Start Location is  : {{origin}}</h4><br>
+      <h4> End Location is : {{destination}}</h4><br>
+      <h4> Trip Duration  is  :{{duration}}</h4><br>
+  </div>
+  <div id="map" class="col-md-10"></div>
+
+  <script>
+  L.mapbox.accessToken = 'pk.eyJ1IjoiYW51YmhhdnJnIiwiYSI6ImNpaHp4dTZmYzA0b3V1c2tvZDJ4bW5qbXoifQ.ImJa59gtwiU_bjvyELOgDw'
+
+  var mapboxTiles = L.tileLayer('https://api.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}.png?access_token=' + L.mapbox.accessToken, {
+    attribution: '<a href="http://www.mapbox.com/about/maps/" target="_blank">Terms &amp; Feedback</a>'
+  });
+
+  var map = L.map('map')
+    .addLayer(mapboxTiles)
+    .setView([37.7786, -122.3892], 13);
+
+  var lat = {{latitude}};
+  var lng = {{longitude}};
+  // console.log(lat, lng, lat.length)
+  for(i=0; i<lat.length; i++)
+  {
+    L.mapbox.featureLayer({
+    // this feature is in the GeoJSON format: see geojson.org
+    // for the full specification
+    type: 'Feature',
+    geometry: {
+        type: 'Point',
+        // coordinates here are in longitude, latitude order because
+        // x, y is the standard for GeoJSON and many formats
+        coordinates: [
+          lng[i],
+          lat[i]
+        ]
+    },
+    properties: {
+        // title: 'Peregrine Espresso',
+        // description: '1718 14th St NW, Washington, DC',
+        // one can customize markers by adding simplestyle properties
+        // https://www.mapbox.com/guides/an-open-platform/#simplestyle
+        'marker-size': 'large',
+        'marker-color': '#0000FF',
+        'marker-symbol': 'bicycle'
+    }
+    }).addTo(map);
+  };
+  
+  var dropoff_lat = {{dest_lat}};
+  var dropoff_lng = {{dest_long}};
+  // console.log(dropoff_lat, dropoff_lng)
+  L.mapbox.featureLayer({
+    // this feature is in the GeoJSON format: see geojson.org
+    // for the full specification
+    type: 'Feature',
+    geometry: {
+        type: 'Point',
+        // coordinates here are in longitude, latitude order because
+        // x, y is the standard for GeoJSON and many formats
+        coordinates: [
+          
+          dropoff_lng,
+          dropoff_lat
+        ]
+    },
+    properties: {
+        // title: 'Peregrine Espresso',
+        // description: '1718 14th St NW, Washington, DC',
+        // one can customize markers by adding simplestyle properties
+        // https://www.mapbox.com/guides/an-open-platform/#simplestyle
+        'marker-size': 'large',
+        'marker-color': '#FF0000',
+        'marker-symbol': 'bicycle'
+    }
+    }).addTo(map);
+  
+  var cl_start_lat = {{cl_start_lat}};
+  var cl_start_lng = {{cl_start_long}};
+  // console.log(dropoff_lat, dropoff_lng)
+  L.mapbox.featureLayer({
+    // this feature is in the GeoJSON format: see geojson.org
+    // for the full specification
+    type: 'Feature',
+    geometry: {
+        type: 'Point',
+        // coordinates here are in longitude, latitude order because
+        // x, y is the standard for GeoJSON and many formats
+        coordinates: [
+          cl_start_lng,
+          cl_start_lat
+        ]
+    },
+    properties: {
+        // title: 'Peregrine Espresso',
+        // description: '1718 14th St NW, Washington, DC',
+        // one can customize markers by adding simplestyle properties
+        // https://www.mapbox.com/guides/an-open-platform/#simplestyle
+        'marker-size': 'large',
+        'marker-color': '#00FF00',
+        'marker-symbol': 'bicycle'
+    }
+    }).addTo(map);
+
+    var input_lat = {{input_lat}};
+    var input_lng = {{input_long}};
+    console.log(input_lat, input_lng)
+    L.mapbox.featureLayer({
+      // this feature is in the GeoJSON format: see geojson.org
+      // for the full specification
+      type: 'Feature',
+      geometry: {
+          type: 'Point',
+          // coordinates here are in longitude, latitude order because
+          // x, y is the standard for GeoJSON and many formats
+          coordinates: [
+            input_lng,
+            input_lat
+          ]
+      },
+      properties: {
+          // title: 'Peregrine Espresso',
+          // description: '1718 14th St NW, Washington, DC',
+          // one can customize markers by adding simplestyle properties
+          // https://www.mapbox.com/guides/an-open-platform/#simplestyle
+          'marker-size': 'large',
+          'marker-color': '#00FF00',
+          'marker-symbol': 'star'
+      }
+      }).addTo(map);
+
+      var output_lat = {{output_lat}};
+      var output_lng = {{output_long}};
+      console.log(output_lat, output_lng)
+      L.mapbox.featureLayer({
+        // this feature is in the GeoJSON format: see geojson.org
+        // for the full specification
+        type: 'Feature',
+        geometry: {
+            type: 'Point',
+            // coordinates here are in longitude, latitude order because
+            // x, y is the standard for GeoJSON and many formats
+            coordinates: [
+              input_lng,
+              output_lat
+            ]
+        },
+        properties: {
+            // title: 'Peregrine Espresso',
+            // description: '1718 14th St NW, Washington, DC',
+            // one can customize markers by adding simplestyle properties
+            // https://www.mapbox.com/guides/an-open-platform/#simplestyle
+            'marker-size': 'large',
+            'marker-color': '#FF0000',
+            'marker-symbol': 'star'
+        }
+        }).addTo(map);
+
+  </script>
+</body>
+</html>
