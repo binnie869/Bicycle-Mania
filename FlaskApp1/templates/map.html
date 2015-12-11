@@ -13,12 +13,8 @@
 </head>
 <body>
 
-  <div id="prediction" class="col-md-2">
-      <h4> Start Location is  : {{origin}}</h4><br>
-      <h4> End Location is : {{destination}}</h4><br>
-      <h4> Trip Duration  is  :{{duration}}</h4><br>
-  </div>
-  <div id="map" class="col-md-10"></div>
+
+  <div id="map" ></div>
 
   <script>
   L.mapbox.accessToken = 'pk.eyJ1IjoiYW51YmhhdnJnIiwiYSI6ImNpaHp4dTZmYzA0b3V1c2tvZDJ4bW5qbXoifQ.ImJa59gtwiU_bjvyELOgDw'
@@ -31,144 +27,215 @@
     .addLayer(mapboxTiles)
     .setView([37.7786, -122.3892], 13);
 
+  var myLayer = L.mapbox.featureLayer().addTo(map);
+
+
   var lat = {{latitude}};
   var lng = {{longitude}};
-  // console.log(lat, lng, lat.length)
-  for(i=0; i<lat.length; i++)
-  {
-    L.mapbox.featureLayer({
-    // this feature is in the GeoJSON format: see geojson.org
-    // for the full specification
-    type: 'Feature',
-    geometry: {
-        type: 'Point',
-        // coordinates here are in longitude, latitude order because
-        // x, y is the standard for GeoJSON and many formats
-        coordinates: [
-          lng[i],
-          lat[i]
-        ]
-    },
-    properties: {
-        // title: 'Peregrine Espresso',
-        // description: '1718 14th St NW, Washington, DC',
-        // one can customize markers by adding simplestyle properties
-        // https://www.mapbox.com/guides/an-open-platform/#simplestyle
-        'marker-size': 'large',
-        'marker-color': '#0000FF',
-        'marker-symbol': 'bicycle'
-    }
-    }).addTo(map);
-  };
+  var name = {{name|safe|join}};
+  var x = []
+  var y = []
+
+  for(i=0;i<name.length;i++){
+    if(name[i]!=",")
+      x.push(name[i])
+    else{
+      y.push(x)
+      x=[]
+  }
+};
   
+  var temp =[]
+  for(i=0;i<y.length;i++)
+    temp.push(y[i].join(""))
+    // temp.push(y[i].join(""))
+
+
+  var dock_cnt = {{dock_cnt}};
+  var bike_cnt = {{bike_cnt}};
+  
+  // console.log(lat, lng, lat.length)
   var dropoff_lat = {{dest_lat}};
   var dropoff_lng = {{dest_long}};
+  var dropoff_name = {{dest_name|safe}};
+  var dropoff_bike_cnt= {{dest_bike_cnt}};
+  var dropoff_dock_cnt={{dest_dock_cnt}};
   // console.log(dropoff_lat, dropoff_lng)
-  L.mapbox.featureLayer({
-    // this feature is in the GeoJSON format: see geojson.org
-    // for the full specification
-    type: 'Feature',
-    geometry: {
-        type: 'Point',
-        // coordinates here are in longitude, latitude order because
-        // x, y is the standard for GeoJSON and many formats
-        coordinates: [
-          
-          dropoff_lng,
-          dropoff_lat
-        ]
-    },
-    properties: {
-        // title: 'Peregrine Espresso',
-        // description: '1718 14th St NW, Washington, DC',
-        // one can customize markers by adding simplestyle properties
-        // https://www.mapbox.com/guides/an-open-platform/#simplestyle
-        'marker-size': 'large',
-        'marker-color': '#FF0000',
-        'marker-symbol': 'bicycle'
-    }
-    }).addTo(map);
-  
   var cl_start_lat = {{cl_start_lat}};
   var cl_start_lng = {{cl_start_long}};
+  var cl_start_name = {{cl_start_name|safe}};
+  var cl_start_bike_cnt= {{cl_bike_cnt}};
+  var cl_start_dock_cnt={{cl_dock_cnt}};
   // console.log(dropoff_lat, dropoff_lng)
-  L.mapbox.featureLayer({
-    // this feature is in the GeoJSON format: see geojson.org
-    // for the full specification
-    type: 'Feature',
-    geometry: {
-        type: 'Point',
-        // coordinates here are in longitude, latitude order because
-        // x, y is the standard for GeoJSON and many formats
-        coordinates: [
-          cl_start_lng,
-          cl_start_lat
-        ]
-    },
-    properties: {
-        // title: 'Peregrine Espresso',
-        // description: '1718 14th St NW, Washington, DC',
-        // one can customize markers by adding simplestyle properties
-        // https://www.mapbox.com/guides/an-open-platform/#simplestyle
-        'marker-size': 'large',
-        'marker-color': '#00FF00',
-        'marker-symbol': 'bicycle'
-    }
-    }).addTo(map);
+  var input_lat = {{input_lat}};
+  var input_lng = {{input_long}};
+// console.log(dropoff_lat, dropoff_lng)
+  var output_lat = {{output_lat}};
+  var output_lng = {{output_long}};
 
-    var input_lat = {{input_lat}};
-    var input_lng = {{input_long}};
-    console.log(input_lat, input_lng)
-    L.mapbox.featureLayer({
-      // this feature is in the GeoJSON format: see geojson.org
-      // for the full specification
-      type: 'Feature',
-      geometry: {
-          type: 'Point',
-          // coordinates here are in longitude, latitude order because
-          // x, y is the standard for GeoJSON and many formats
-          coordinates: [
-            input_lng,
-            input_lat
-          ]
-      },
-      properties: {
-          // title: 'Peregrine Espresso',
-          // description: '1718 14th St NW, Washington, DC',
-          // one can customize markers by adding simplestyle properties
-          // https://www.mapbox.com/guides/an-open-platform/#simplestyle
-          'marker-size': 'large',
-          'marker-color': '#00FF00',
-          'marker-symbol': 'star'
-      }
-      }).addTo(map);
-
-      var output_lat = {{output_lat}};
-      var output_lng = {{output_long}};
-      console.log(output_lat, output_lng)
-      L.mapbox.featureLayer({
-        // this feature is in the GeoJSON format: see geojson.org
-        // for the full specification
+  var origin = {{origin|safe}};
+  var destination ={{destination|safe}};
+  var x = []
+  for(i=0; i<lat.length; i++)
+  {
+    x.push(
+    {
         type: 'Feature',
+        properties: {
+             station_name:temp[i],
+             dock_cnt: dock_cnt[i],
+             bike_cnt: bike_cnt[i],
+            'marker-color': '#0000FF',
+            'marker-size': 'large',
+            'marker-symbol': 'bicycle'
+        },
         geometry: {
             type: 'Point',
-            // coordinates here are in longitude, latitude order because
-            // x, y is the standard for GeoJSON and many formats
-            coordinates: [
-              input_lng,
-              output_lat
-            ]
-        },
-        properties: {
-            // title: 'Peregrine Espresso',
-            // description: '1718 14th St NW, Washington, DC',
-            // one can customize markers by adding simplestyle properties
-            // https://www.mapbox.com/guides/an-open-platform/#simplestyle
-            'marker-size': 'large',
-            'marker-color': '#FF0000',
-            'marker-symbol': 'star'
+            coordinates: [lng[i], lat[i]]
         }
-        }).addTo(map);
+    }
+    )
+  };
+
+  
+  x.push({
+        type: 'Feature',
+        properties: {
+             station_name:String(dropoff_name[0]),
+             dock_cnt: dropoff_dock_cnt,
+             bike_cnt: dropoff_bike_cnt, 
+            'marker-color': '#FF0000',
+            'marker-size': 'large',
+            'marker-symbol': 'bicycle'
+        },
+        geometry: {
+            type: 'Point',
+            coordinates: [dropoff_lng, dropoff_lat]
+        }
+    })
+
+  x.push({
+        type: 'Feature',
+        properties: {
+            station_name:String(cl_start_name[0]),
+            dock_cnt: cl_start_dock_cnt,
+            bike_cnt: cl_start_bike_cnt,
+            'marker-color': '#00FF00',
+            'marker-size': 'large',
+            'marker-symbol': 'bicycle'
+        },
+        geometry: {
+            type: 'Point',
+            coordinates: [cl_start_lng, cl_start_lat]
+        }
+    })
+
+  x.push({
+        type: 'Feature',
+        properties: {
+            station_name: String(origin[0]),
+            dock_cnt:'INVALID',
+            bike_cnt:'INVLAID',
+            'marker-color': '#00FF00',
+            'marker-size': 'large',
+            'marker-symbol': 'star'
+        },
+        geometry: {
+            type: 'Point',
+            coordinates: [input_lng, input_lat]
+        }
+    })
+
+  x.push({
+        type: 'Feature',
+        properties: {
+          station_name:String(destination[0]),
+            dock_cnt:'INVALID',
+            bike_cnt:'INVLAID',
+            'marker-color': '#FF0000',
+            'marker-size': 'large',
+            'marker-symbol': 'star'
+        },
+        geometry: {
+            type: 'Point',
+            coordinates: [output_lng, output_lat]
+        }
+    })
+
+  
+  var geojson= {
+    type: 'FeatureCollection',
+    features : x
+    }
+
+  myLayer.setGeoJSON(geojson);
+  var x, y, z
+
+  myLayer.eachLayer(function(layer) {
+    x = layer.feature.properties.station_name
+    y = layer.feature.geometry.coordinates[1]
+    z = layer.feature.geometry.coordinates[0]
+    console.log(x, y, z)
+
+    // here you call `bindPopup` with a string of HTML you create - the feature
+    // properties declared above are available under `layer.feature.properties`
+    var content = '<h2>Bike station!<\/h2>' +
+        '<p>Station Name: ' + layer.feature.properties.station_name + '<br \/>' +
+        'Bike Count: ' + layer.feature.properties.bike_cnt + '<br \/>' +
+        'Dock Count: ' + layer.feature.properties.dock_cnt + '<br\/>'+
+        '<button class="trigger">Select</button>' + '<\/p>';
+    layer.bindPopup(content);
+  });
+
+
+
+    // myLayer.bindPopup('<button class="trigger">Select</button>');
+
+  //   $('#map').on('click', '.trigger', function() {
+  //   alert('Hello from Toronto!');
+  // });
+
+    $("#map").click(function(){
+      var form = document.createElement("form");
+      document.body.appendChild(form);
+      form.method = "POST";
+      form.action = "http://127.0.0.1:5000/trip";
+      var element1 = document.createElement("input")
+      element1innerHTML = ("<INPUT NAME='start_name' TYPE='hidden' VALUE='"+x+"'>");  
+      form.appendChild(element1);
+      var element2 = document.createElement("input")
+      element2.innerHTML = ("<input name='start_lat' type='hidden' value='"+y+"'>");  
+      form.appendChild(element2);
+      var element3 = document.createElement("input")
+      element3.innerHTML = ("<INPUT NAME='start_lng' TYPE='hidden' VALUE='"+z+"'>");  
+      form.appendChild(element3);
+      var element4 = document.createElement("input")
+      element4.innerHTML = ("<INPUT NAME='dest_name' TYPE='hidden' VALUE='"+dropoff_name[0]+"'>"); 
+      form.appendChild(element4);
+      var element5 = document.createElement("input")
+      element5.innerHTML = ("<INPUT NAME='dest_lat' TYPE='hidden' VALUE='"+dropoff_lat+"'>"); 
+      form.appendChild(element5);
+      var element6 = document.createElement("input")
+      element6.innerHTML = ("<INPUT NAME='dest_lng' TYPE='hidden' VALUE='"+dropoff_lng+"'>"); 
+      form.appendChild(element6);
+      form.submit();
+      }
+    // $.post("http://127.0.0.1:5000/trip",
+    // {
+    //     start_name: x,
+    //     start_lat: y,
+    //     start_lng: z,
+    //     dest_name: dropoff_name[0], 
+    //     dest_lat: dropoff_lat,
+    //     dest_lng: dropoff_lng
+    //   }
+    // },
+    // function(data, status){
+    //     alert("Data: " + data + "\nStatus: " + status);
+    // }
+    // );
+);
+  
 
   </script>
 </body>
