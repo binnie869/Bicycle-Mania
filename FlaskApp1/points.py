@@ -30,10 +30,10 @@ def list_points(origin, dist_limit=5):
 		# print dist
 		if dist < dist_limit:
 			# print i
-			points.append((df['lat'][i], df['long'][i]))
+			points.append((df['lat'][i], df['long'][i], df['name'].values[i]))
 		if dist< min_dist:
 			min_dist = dist
-			cl_loc = (df['lat'][i], df['long'][i])
+			cl_loc = (df['lat'][i], df['long'][i], [df['name'].values[i]])
 
 	return points, cl_loc
 
@@ -49,6 +49,6 @@ def closest(origin):
 		if dist < min_dist:
 			min_dist = dist
 			print min_dist
-			drop_off = (df['lat'][i], df['long'][i])
+			drop_off = (df['lat'][i], df['long'][i], [df['name'].values[i]])
 
 	return drop_off
